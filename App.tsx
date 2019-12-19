@@ -16,6 +16,7 @@ import {
   View,
   Text,
   StatusBar,
+  TouchableOpacity,
 } from 'react-native';
 
 import {
@@ -25,8 +26,11 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createAppContainer } from 'react-navigation';
 
-const App = () => {
+class HomeScreen extends React.Component<any, any> {
+  render() {
   const usingHermes = typeof HermesInternal === 'object' && HermesInternal !== null;
   return (
     <>
@@ -69,10 +73,16 @@ const App = () => {
             </View>
             <LearnMoreLinks />
           </View>
+          <View>
+            <TouchableOpacity onPress={this.props.navigation.openDrawer}>
+              <Text>Open Drawer</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </SafeAreaView>
     </>
   );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -113,5 +123,3 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
-
-export default App;

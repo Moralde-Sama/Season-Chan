@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { View, StyleSheet, ImageBackground, Text, Platform, Image } from 'react-native';
-import { LoginForm } from './components/login/LoginForm';
+import { LoginForm } from '../components/login/LoginForm';
 import { createAppContainer, NavigationScreenProp } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import App from './App';
+import App from '../App';
 
 export interface LoginProps {
   navigation: NavigationScreenProp<any,  any>;
@@ -36,7 +36,7 @@ class Login extends React.Component<LoginProps, LoginState> {
       <View style={styles.container_powered_by}>
         <Text style={styles.text_powered_by}>
           Powered by
-          <Image style={styles.anilist_logo} source={require('./assets/images/anilist.png')} />
+          <Image style={styles.anilist_logo} source={require('../assets/images/anilist.png')} />
         </Text>
         
       </View>
@@ -51,7 +51,7 @@ class Login extends React.Component<LoginProps, LoginState> {
       >
         <View style={styles.bg_overlay}>
           <View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
-            <Image style={styles.season_chan_logo} source={require('./assets/images/Season-ChanLogo.png')} />
+            <Image style={styles.season_chan_logo} source={require('../assets/images/Season-ChanLogo.png')} />
           </View>
           <LoginForm 
             usernameInputHandler={this.usernameInputHandler} 
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     image_background: {
       height: '100%',
       width: '100%',
+      backgroundColor: '#292D3E',
       
     },
     bg_overlay: {
