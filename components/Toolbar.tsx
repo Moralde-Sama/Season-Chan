@@ -32,7 +32,7 @@ export default class Toolbar extends React.Component<ToolbarProps, any> {
     title: {
         fontSize: 23,
         color: 'white',
-        marginTop: 1,
+        marginTop: 2,
         fontWeight: "bold",
         marginLeft: 13,
     }

@@ -3,7 +3,6 @@ import { View, StyleSheet, ImageBackground, Text, Platform, Image } from 'react-
 import { LoginForm } from '../components/login/LoginForm';
 import { createAppContainer, NavigationScreenProp } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import App from '../App';
 
 export interface LoginProps {
   navigation: NavigationScreenProp<any,  any>;
@@ -73,12 +72,6 @@ const Navigator = createStackNavigator({
       headerShown: false
     }
   },
-  Hermes: {
-    screen: App,
-    navigationOptions: {
-      headerShown: false
-    }
-  }
 });
 
 export default createAppContainer(Navigator);

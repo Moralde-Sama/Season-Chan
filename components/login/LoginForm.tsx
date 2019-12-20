@@ -29,7 +29,7 @@ export class LoginForm extends React.Component<LoginFormProps, any> {
           placeholderTextColor="white"
           secureTextEntry={true}
           onChangeText={this.props.usernameInputHandler.bind(this)}
-          value={this.props.username_input_val}
+          value={this.props.usernameVal}
         />
 
         <View style={styles.margin_top}>
