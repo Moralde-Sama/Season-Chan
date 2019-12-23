@@ -26,10 +26,8 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import { createDrawerNavigator } from 'react-navigation-drawer';
-import { createAppContainer } from 'react-navigation';
 
-class HomeScreen extends React.Component<any, any> {
+export default class App extends React.Component<any, any> {
   render() {
   const usingHermes = typeof HermesInternal === 'object' && HermesInternal !== null;
   return (

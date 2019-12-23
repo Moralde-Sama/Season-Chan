@@ -72,8 +72,6 @@ const styles = StyleSheet.create({
     backgroundColor: ThemeColor.PrimaryColor,
     paddingBottom: 5,
     paddingTop: 3,
-    paddingRight: 5,
-    paddingLeft: 5,
     marginLeft: '25%',
     marginRight: '25%',
     borderRadius: 7,
@@ -84,6 +82,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     color: 'white',
+    marginRight: 3,
   },
   description: {
     fontSize: 15,

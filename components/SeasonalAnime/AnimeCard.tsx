@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
-import { ThemeColor } from '../../ThemeColor';
+import { View, StyleSheet, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { NavigationDrawerProp } from 'react-navigation-drawer';
 
 export interface AnimeCardProps {
   onPressMoreInfo: () => void;
+  navigation: NavigationDrawerProp;
 }
 
 export default class AnimeCard extends React.Component<AnimeCardProps, any> {
@@ -15,34 +16,50 @@ export default class AnimeCard extends React.Component<AnimeCardProps, any> {
   public render() {
     return (
       <View style={styles.container}>
-        <Image
-          source={{uri: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx108489-y4rW0W1fvto6.jpg'}}
-          style={styles.imageBG}/>
-        <View 
-          style={styles.ranking}>
-          <Icon name={'md-heart-empty'} size={25} color={'red'} />
-          <Text style={styles.rankingText}>#1</Text>
-        </View>
-        <View style={styles.content}>
-          <Text style={styles.title}>Oregairu Season 2</Text>
-          <Text style={styles.studio}>Feel</Text>
-          <TouchableOpacity 
-            onPress={this.props.onPressMoreInfo}
-            style={styles.more}>
-            <Icon name={'md-more'} size={35} color={"white"} />
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          onPress={() => {this.props.navigation.navigate('AnimeDetails')}}
+          activeOpacity={.8}>
+          <View>
+            <Image
+              source={{uri: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx108489-y4rW0W1fvto6.jpg'}}
+              style={styles.imageBG}/>
+            <View 
+              style={styles.ranking}>
+              <Icon name={'md-heart-empty'} size={25} color={'red'} />
+              <Text style={styles.rankingText}>#1</Text>
+            </View>
+            <View
+              style={styles.moreInfoContainer}>
+              <TouchableOpacity
+                onPress={this.props.onPressMoreInfo}
+                style={styles.moreInfo}>
+                <Icon name='md-help' size={20} color='white' />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.content}>
+              <Text style={styles.title}>Oregairu Season 2</Text>
+              <Text style={styles.studio}>Feel</Text>
+              <TouchableOpacity 
+                onPress={this.props.onPressMoreInfo}
+                style={styles.options}>
+                <Icon name='md-more' size={35} color="white" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
 }
+const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: ThemeColor.PrimaryColor,
+    backgroundColor: 'white',
     borderRadius: 10,
-    width: '48%',
-    height: 230,
+    width: windowWidth*.46,
+    height: windowHeight*.4,
     marginBottom: 10,
     elevation: 6
   },
@@ -73,7 +90,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     marginTop: 5,
   },
-  more: {
+  options: {
     position: "absolute",
     top: "30%",
     right: 10,
@@ -83,8 +100,9 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     flexDirection: 'row',
-    backgroundColor: 'rgba(0,0,0,.3)',
+    backgroundColor: 'rgba(0,0,0,.4)',
     borderBottomRightRadius: 10,
+    borderTopLeftRadius: 10,
     padding: 5,
   },
   rankingText: {
@@ -93,5 +111,18 @@ const styles = StyleSheet.create({
     color: 'white',
     marginLeft: 2,
     marginTop: 1
+  },
+  moreInfoContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    padding: 8,
+    backgroundColor: 'rgba(0,0,0,.4)',
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+  },
+  moreInfo: {
+    height: '100%',
+    width: '100%',
   }
 });
