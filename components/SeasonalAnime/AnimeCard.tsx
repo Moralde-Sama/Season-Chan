@@ -5,10 +5,12 @@ import { NavigationDrawerProp } from 'react-navigation-drawer';
 
 export interface AnimeCardProps {
   onPressMoreInfo: () => void;
+  onPressActions: () => void;
   navigation: NavigationDrawerProp;
 }
 
 export default class AnimeCard extends React.Component<AnimeCardProps, any> {
+
   constructor(props: AnimeCardProps) {
     super(props);
   }
@@ -31,7 +33,7 @@ export default class AnimeCard extends React.Component<AnimeCardProps, any> {
             <View
               style={styles.moreInfoContainer}>
               <TouchableOpacity
-                onPress={this.props.onPressMoreInfo}
+                onPress={this.props.onPressMoreInfo.bind(this)}
                 style={styles.moreInfo}>
                 <Icon name='md-help' size={20} color='white' />
               </TouchableOpacity>
@@ -40,7 +42,7 @@ export default class AnimeCard extends React.Component<AnimeCardProps, any> {
               <Text style={styles.title}>Oregairu Season 2</Text>
               <Text style={styles.studio}>Feel</Text>
               <TouchableOpacity 
-                onPress={this.props.onPressMoreInfo}
+                onPress={this.props.onPressActions.bind(this)}
                 style={styles.options}>
                 <Icon name='md-more' size={35} color="white" />
               </TouchableOpacity>
@@ -51,6 +53,7 @@ export default class AnimeCard extends React.Component<AnimeCardProps, any> {
     );
   }
 }
+
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
@@ -60,8 +63,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: windowWidth*.46,
     height: windowHeight*.4,
-    marginBottom: 10,
-    elevation: 6
+    marginBottom: 15,
+    elevation: 5
   },
   imageBG: {
     height: '100%',

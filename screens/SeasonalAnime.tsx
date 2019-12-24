@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { NavigationDrawerProp } from 'react-navigation-drawer';
-import Toolbar from '../components/Toolbar';
 import { ThemeColor } from '../ThemeColor';
-import MoreInfo from '../components/SeasonalAnime/MoreInfo';
+import AnimeCardModal, { AnimeModalOptions } from '../components/SeasonalAnime/AnimeCardModal';
 import AnimeCardItem from '../components/SeasonalAnime/AnimeCardItem';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AnimeCard from '../components/SeasonalAnime/AnimeCard';
 
 export interface SeasonalProps {
     navigation: NavigationDrawerProp
@@ -13,6 +13,7 @@ export interface SeasonalProps {
 
 export interface SeasonalState {
   modalVisible: boolean;
+  animeModalOptions: AnimeModalOptions;
 }
 
 
@@ -38,7 +39,11 @@ export default class SeasonalAnime extends React.Component<SeasonalProps, Season
   constructor(props: SeasonalProps) {
     super(props);
     this.state = {
-      modalVisible: false
+      modalVisible: false,
+      animeModalOptions: {
+        showComponent: "MoreInfo",
+        animationType: "fade"
+      }
     }
   }
 
@@ -49,14 +54,32 @@ export default class SeasonalAnime extends React.Component<SeasonalProps, Season
   }
 
   private closeModalHandler = () => {
-    this.setState(() => ({
-      modalVisible: false
-    }));
+    this.setAnimeCardOptions(false);
   }
 
   private moreInfoPressHandler = () => {
+    this.setAnimeCardOptions(true, {
+      animationType: "fade",
+      showComponent: "MoreInfo"
+    });
+  }
+
+  private cardActionPressHandler = () => {
+    this.setAnimeCardOptions(true, {
+      animationType: "slide",
+      showComponent: "Actions"
+    });
+  }
+
+  private setAnimeCardOptions = (visible: boolean, modalOptions?: AnimeModalOptions) => {
     this.setState(() => ({
-      modalVisible: true
+      modalVisible: visible,
+      animeModalOptions: {
+        ...modalOptions ?? {
+          animationType: 'fade',
+          showComponent: 'none'
+        }
+      }
     }));
   }
 
@@ -76,11 +99,16 @@ export default class SeasonalAnime extends React.Component<SeasonalProps, Season
                 index={index}
                 length={3}
                 moreInfoPressHandler={this.moreInfoPressHandler}
-                navigation={this.props.navigation}/>
+                cardActionsPressHandler={this.cardActionPressHandler}
+                navigation={this.props.navigation} />
             )
-           }}/>
+           }} />
         </View>
-        <MoreInfo modalVisible={this.state.modalVisible} closeModalHandler={this.closeModalHandler} />
+        <AnimeCardModal
+          modalVisible={this.state.modalVisible}
+          closeModalHandler={this.closeModalHandler}
+          animeModalOptions={this.state.animeModalOptions}
+          />
       </View>
     );
   }

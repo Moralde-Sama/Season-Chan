@@ -7,6 +7,7 @@ export interface AnimeCardItemProps {
     index: number;
     length: number;
     moreInfoPressHandler: () => void;
+    cardActionsPressHandler: () => void;
     navigation: NavigationDrawerProp
     
 }
@@ -29,9 +30,12 @@ export default class AnimeCardItem extends React.Component<AnimeCardItemProps, a
         <View style={containerStyle()}>
             <AnimeCard
                 onPressMoreInfo={this.props.moreInfoPressHandler}
+                onPressActions={this.props.cardActionsPressHandler}
                 navigation={this.props.navigation} />
+
             <AnimeCard
                 onPressMoreInfo={this.props.moreInfoPressHandler}
+                onPressActions={this.props.cardActionsPressHandler}
                 navigation={this.props.navigation} />
         </View>
     );
@@ -47,7 +51,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
       },
       firstItem: {
-        marginTop: 10,
+        marginTop: 15,
         paddingLeft: 10,
         paddingRight: 10,
         flexDirection: 'row',
@@ -56,7 +60,7 @@ const styles = StyleSheet.create({
         
       },
       lastItem: {
-        marginBottom: 10,
+        marginBottom: 5,
         paddingLeft: 10,
         paddingRight: 10,
         flexDirection: 'row',
