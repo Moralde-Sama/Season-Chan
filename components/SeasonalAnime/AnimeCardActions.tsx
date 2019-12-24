@@ -1,53 +1,46 @@
 import * as React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import ActionSheetAndroid, { ActionSheetAndroidListProps } from '../../components/ActionSheetAndroid';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { ThemeColor } from '../../ThemeColor';
 
 export interface AnimeCardActionsProps {
     closeModal: () => void;
 }
 
-export interface AnimeCardActionsState {
-}
-
-export default class AnimeCardActions extends React.Component<AnimeCardActionsProps, AnimeCardActionsState> {
-  constructor(props: AnimeCardActionsProps) {
-    super(props);
-    this.state = {
-    };
-  }
-
-  public render() {
-    return (
-        <View style={styles.background}>
-            <TouchableOpacity
-                activeOpacity={1}
-                onPress={this.props.closeModal.bind(this)}>
-                <View style={styles.content}>
-                </View>
-            </TouchableOpacity>
-            <View style={styles.actionSheetContainer}>
-
-            </View>
-        </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-    background: {
-        backgroundColor: 'transparent',
-        flex: 1,
-    },
-    content: {
-        height: '100%',
-        width: '100%',
-        backgroundColor: 'transparent',
-    },
-    actionSheetContainer: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        height: 250,
-        width: '100%',
-        backgroundColor: 'white',
+export default class AnimeCardActions extends React.Component<AnimeCardActionsProps, any> {
+    constructor(props: AnimeCardActionsProps) {
+        super(props);
     }
-});
+
+    private listItemTemp: ActionSheetAndroidListProps[] = [
+        {
+            key: '0',
+            title: 'Planning',
+            icon: () => {
+                return (
+                    <Icon name="md-clock" size={25} color={ThemeColor.PrimaryColor} />
+                )
+            },
+            onPress: () => { }
+        },
+        {
+            key: '1',
+            title: 'Completed',
+            icon: () => {
+                return (
+                    <Icon name="md-checkmark" size={25} color={ThemeColor.PrimaryColor} />
+                )
+            },
+            onPress: () => { }
+        },
+    ]
+
+    public render() {
+        return (
+            <ActionSheetAndroid
+                closeModal={this.props.closeModal}
+                title=''
+                listItem={this.listItemTemp} />
+        );
+    }
+}

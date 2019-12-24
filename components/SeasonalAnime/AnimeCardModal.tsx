@@ -2,9 +2,10 @@ import * as React from 'react';
 import {View, Modal} from 'react-native';
 import AnimeCardActions from './AnimeCardActions';
 import AnimeCardMoreInfo from './AnimeCardMoreInfo';
+import HeaderOptions from './HeaderOptions';
 
 export interface AnimeModalOptions {
-  showComponent: "Actions" | "MoreInfo" | "none";
+  showComponent: "Actions" | "MoreInfo" | "HeaderOptions" | "none";
   animationType: "fade" | "none" | "slide";
 }
 
@@ -30,6 +31,11 @@ export default class SeasonalAnimeModal extends React.Component<SeasonalAnimeMod
       case "MoreInfo":
         return (
           <AnimeCardMoreInfo 
+            closeModal={this.props.closeModalHandler}/>
+        )
+      case "HeaderOptions":
+        return (
+          <HeaderOptions 
             closeModal={this.props.closeModalHandler}/>
         )
         default:

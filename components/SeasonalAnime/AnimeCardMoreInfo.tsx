@@ -18,7 +18,7 @@ export default class AnimeCardMoreInfo extends React.Component<AnimeCardMoreInfo
 
   public render() {
     return (
-        <View style={styles.background}>
+      <View style={styles.background}>
         <View style={styles.content}>
           <Text style={styles.header}>More Info</Text>
           <Text style={styles.description}>

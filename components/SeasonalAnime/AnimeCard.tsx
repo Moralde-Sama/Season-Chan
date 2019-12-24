@@ -63,8 +63,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: windowWidth*.46,
     height: windowHeight*.4,
-    marginBottom: 15,
-    elevation: 5
+    elevation: 5,
+    margin: windowWidth*.02,
   },
   imageBG: {
     height: '100%',

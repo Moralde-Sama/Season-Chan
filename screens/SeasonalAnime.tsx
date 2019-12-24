@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Alert, TouchableOpacity } from 'react-native';
 import { NavigationDrawerProp } from 'react-navigation-drawer';
 import { ThemeColor } from '../ThemeColor';
 import AnimeCardModal, { AnimeModalOptions } from '../components/SeasonalAnime/AnimeCardModal';
-import AnimeCardItem from '../components/SeasonalAnime/AnimeCardItem';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AnimeCard from '../components/SeasonalAnime/AnimeCard';
 
@@ -18,24 +17,32 @@ export interface SeasonalState {
 
 
 export default class SeasonalAnime extends React.Component<SeasonalProps, SeasonalState> {
-  //   static navigationOptions = {
-  //       drawerLabel: 'Seasonal Anime',
-  //       drawerIcon: ({ tintColor = ThemeColor.SecondaryColor }) => (
-  //       <Image
-  //           source={require('../assets/images/anilist.png')}
-  //           style={[styles.icon, { tintColor: tintColor }]}
-  //       />
-  //   )
-  // };
   static navigationOptions = ({navigation}: any) => {
     return {
       title:  navigation.getParam('Title', 'Default Title'),
       headerStyle: {backgroundColor: ThemeColor.PrimaryColor},
       headerTintColor: "#FFFFFF",
       headerLeft: <Icon name='md-menu' size={35} color='white' style={{marginLeft: 20}} 
-        onPress={navigation.openDrawer} />
+        onPress={navigation.openDrawer} />,
+      headerRight: () => (
+        <SeasonalAnime.HeaderButtons 
+        onPress={navigation.getParam('headerFilter')}/>
+      )
     }
   }
+
+  static HeaderButtons = (props: {onPress: () => void}) => {
+    return (
+      <View style={styles.headerButtonsContainer}>
+        <TouchableOpacity
+          activeOpacity={.5}
+          onPress={props.onPress}>
+          <Icon name='md-funnel' size={25} color='white' />
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
   constructor(props: SeasonalProps) {
     super(props);
     this.state = {
@@ -49,7 +56,8 @@ export default class SeasonalAnime extends React.Component<SeasonalProps, Season
 
   componentDidMount() {
     this.props.navigation.setParams({
-      Title: 'Winter 2020'
+      Title: 'Winter 2020',
+      headerFilter: this.headerButtonPressHandler
     })
   }
 
@@ -68,6 +76,13 @@ export default class SeasonalAnime extends React.Component<SeasonalProps, Season
     this.setAnimeCardOptions(true, {
       animationType: "slide",
       showComponent: "Actions"
+    });
+  }
+
+  private headerButtonPressHandler = () => {
+    this.setAnimeCardOptions(true, {
+      animationType: "fade",
+      showComponent: "HeaderOptions"
     });
   }
 
@@ -93,16 +108,16 @@ export default class SeasonalAnime extends React.Component<SeasonalProps, Season
             {key: '2'},
             {key: '3'}
           ]}
-          renderItem={({item, index}) => {
+          renderItem={({item}) => {
             return (
-              <AnimeCardItem 
-                index={index}
-                length={3}
-                moreInfoPressHandler={this.moreInfoPressHandler}
-                cardActionsPressHandler={this.cardActionPressHandler}
-                navigation={this.props.navigation} />
+              <AnimeCard 
+                onPressActions={this.cardActionPressHandler}
+                onPressMoreInfo={this.moreInfoPressHandler}
+                navigation={this.props.navigation}/>
             )
-           }} />
+           }}
+           horizontal={false}
+           numColumns={2} />
         </View>
         <AnimeCardModal
           modalVisible={this.state.modalVisible}
@@ -125,5 +140,9 @@ const styles = StyleSheet.create({
     },
     container: {
       height: '100%',
+    },
+    headerButtonsContainer: {
+      flexDirection: 'row',
+      marginRight: 15,
     }
 });
