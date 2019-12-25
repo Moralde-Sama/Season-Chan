@@ -14,7 +14,7 @@ export default createStackNavigator({
               title: navigation.getParam('Title', 'Default'),
               headerStyle: {backgroundColor: ThemeColor.PrimaryColor},
               headerTintColor: "#FFFFFF",
-              headerLeft: <Icon name='md-menu' size={35} color='white' style={{marginLeft: 20}} 
+              headerLeft: <Icon name='md-menu' size={30} color='white' style={{marginLeft: 20}} 
                 onPress={navigation.openDrawer} />,
               headerRight: () => (
                 <SeasonalAnime.HeaderButtons 

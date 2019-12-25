@@ -12,8 +12,8 @@ export default createBottomTabNavigator({
         screen: SeasonalAnime,
         navigationOptions: {
             tabBarLabel: 'Winter 2020',
-            tabBarIcon: () => (
-                <Icon name='md-snow' size={25} color='white' />
+            tabBarIcon: ({ focused, horizontal, tintColor }) => (
+                <Icon name='md-snow' size={25} color={tintColor} />
             ),
         }
     },
@@ -21,8 +21,8 @@ export default createBottomTabNavigator({
         screen: SpringAnime,
         navigationOptions: {
             tabBarLabel: 'Spring 2020',
-            tabBarIcon: () => (
-                <Icon name='md-rose' size={25} color='white' />
+            tabBarIcon: ({ focused, horizontal, tintColor }) => (
+                <Icon name='md-rose' size={25} color={tintColor} />
             ),
         }
     },
@@ -30,8 +30,8 @@ export default createBottomTabNavigator({
         screen: SummerAnime,
         navigationOptions: {
             tabBarLabel: 'Summer 2020',
-            tabBarIcon: () => (
-                <Icon name='md-sunny' size={25} color='white' />
+            tabBarIcon: ({ focused, horizontal, tintColor }) => (
+                <Icon name='md-sunny' size={25} color={tintColor} />
             ),
         }
     },
@@ -39,8 +39,8 @@ export default createBottomTabNavigator({
         screen: FallAnime,
         navigationOptions: {
             tabBarLabel: 'Fall 2020',
-            tabBarIcon: () => (
-                <Icon name='md-leaf' size={25} color='white' />
+            tabBarIcon: ({ focused, horizontal, tintColor }) => (
+                <Icon name='md-leaf' size={25} color={tintColor} />
             ),
         }
     },
@@ -49,6 +49,7 @@ export default createBottomTabNavigator({
     lazy: true,
     tabBarOptions: {
         activeTintColor: ThemeColor.SecondaryColor,
+        inactiveTintColor: 'white',
         labelStyle: {
             fontSize: 12,
         },

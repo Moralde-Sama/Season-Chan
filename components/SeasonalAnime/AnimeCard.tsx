@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationDrawerProp } from 'react-navigation-drawer';
+import FastImage from 'react-native-fast-image'
 
 export interface AnimeCardProps {
   onPressMoreInfo: () => void;
@@ -22,9 +23,17 @@ export default class AnimeCard extends React.Component<AnimeCardProps, any> {
           onPress={() => {this.props.navigation.navigate('AnimeDetails')}}
           activeOpacity={.8}>
           <View>
-            <Image
+            <FastImage
+              style={{ width: '100%', height: '100%', borderRadius: 10, }}
+              source={{
+                uri: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx108489-y4rW0W1fvto6.jpg',
+                priority: FastImage.priority.normal,
+              }}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+            {/* <Image
               source={{uri: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx108489-y4rW0W1fvto6.jpg'}}
-              style={styles.imageBG}/>
+              style={styles.imageBG}/> */}
             <View 
               style={styles.ranking}>
               <Icon name={'md-heart-empty'} size={25} color={'red'} />
@@ -62,7 +71,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     width: windowWidth*.46,
-    height: windowHeight*.4,
+    height: windowHeight*.42,
     elevation: 5,
     margin: windowWidth*.02,
   },
@@ -82,13 +91,14 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 10,
   },
   title: {
-    fontSize: 15,
+    fontSize: windowWidth*.04,
     fontWeight: 'bold',
     color: 'white',
-    textAlign: 'left'
+    textAlign: 'left',
+    marginRight: 13,
   },
   studio: {
-    fontSize: 15,
+    fontSize: windowWidth*.038,
     color: 'white',
     textAlign: 'left',
     marginTop: 5,

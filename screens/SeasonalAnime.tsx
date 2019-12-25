@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { View, StyleSheet, FlatList, Alert, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, FlatList, Alert, TouchableOpacity, SectionList, Text } from 'react-native';
 import { NavigationDrawerProp } from 'react-navigation-drawer';
 import { ThemeColor } from '../ThemeColor';
 import AnimeCardModal, { AnimeModalOptions } from '../components/SeasonalAnime/AnimeCardModal';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AnimeCard from '../components/SeasonalAnime/AnimeCard';
-import { createAppContainer, ThemeColors } from 'react-navigation';
-import BottomNav from '../navigation/BottomNavigation';
 
 export interface SeasonalProps {
     navigation: NavigationDrawerProp
@@ -22,6 +20,12 @@ export default class SeasonalAnime extends React.Component<SeasonalProps, Season
   static HeaderButtons = (props: {onPress: () => void}) => {
     return (
       <View style={styles.headerButtonsContainer}>
+        <TouchableOpacity
+          activeOpacity={.5}
+          onPress={props.onPress}
+          style={{marginRight: 15}}>
+          <Icon name='md-calendar' size={25} color='white' />
+        </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={.5}
           onPress={props.onPress}>
@@ -91,22 +95,58 @@ export default class SeasonalAnime extends React.Component<SeasonalProps, Season
     return (
       <View>
         <View style={styles.container}>
-        <FlatList 
-          data={[
-            {key: '1'},
-            {key: '2'},
-            {key: '3'}
-          ]}
-          renderItem={({item}) => {
-            return (
-              <AnimeCard 
-                onPressActions={this.cardActionPressHandler}
-                onPressMoreInfo={this.moreInfoPressHandler}
-                navigation={this.props.navigation}/>
-            )
-           }}
-           horizontal={false}
-           numColumns={2} />
+          {/* <FlatList 
+            data={[
+              {key: '1'},
+              {key: '2'},
+              {key: '3'}
+            ]}
+            renderItem={({item}) => {
+              return (
+                <AnimeCard 
+                  onPressActions={this.cardActionPressHandler}
+                  onPressMoreInfo={this.moreInfoPressHandler}
+                  navigation={this.props.navigation}/>
+              )
+            }}
+            horizontal={false}
+            numColumns={2} /> */}
+            <SectionList 
+              sections={[{title: 'TV', data: [{id: 1, data: [
+                {key: '1'},
+                {key: '2'},
+                {key: '3'},
+                {key: '4'},
+                {key: '5'}
+              ]}]},
+              {title: 'TV-Short', data: [{id: 1, data: [
+                {key: '1'},
+                {key: '2'},
+                {key: '3'},
+                {key: '4'},
+                {key: '5'}
+              ]}]}]}
+              keyExtractor={(item: any, index: number) => item.id + index}
+              removeClippedSubviews={true}
+              renderItem={({item}) => (
+                <FlatList 
+                  data={item.data}
+                  renderItem={({item}) => {
+                    return (
+                      <AnimeCard 
+                        onPressActions={this.cardActionPressHandler}
+                        onPressMoreInfo={this.moreInfoPressHandler}
+                        navigation={this.props.navigation}/>
+                    )
+                  }}
+                  horizontal={false}
+                  numColumns={2} />
+              )}
+              renderSectionHeader={({ section: { title } }) => (
+                <View style={styles.sectionContainer}>
+                  <Text style={styles.sectionTitle}>{title}</Text>
+                </View>
+              )}/>
         </View>
         <AnimeCardModal
           modalVisible={this.state.modalVisible}
@@ -133,5 +173,19 @@ const styles = StyleSheet.create({
     headerButtonsContainer: {
       flexDirection: 'row',
       marginRight: 15,
+    },
+    sectionContainer: {
+      padding: 5,
+      backgroundColor: ThemeColor.PrimaryColor,
+      margin: 5,
+      marginBottom: 5,
+      borderRadius: 10,
+      elevation: 5,
+    },
+    sectionTitle: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: 'white',
+      textAlign: 'center'
     }
 });

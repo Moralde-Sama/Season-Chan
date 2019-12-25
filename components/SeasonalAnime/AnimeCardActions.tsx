@@ -15,7 +15,7 @@ export default class AnimeCardActions extends React.Component<AnimeCardActionsPr
     private listItemTemp: ActionSheetAndroidListProps[] = [
         {
             key: '0',
-            title: 'Planning',
+            title: 'Set as planning',
             icon: () => {
                 return (
                     <Icon name="md-clock" size={25} color={ThemeColor.PrimaryColor} />
@@ -25,7 +25,7 @@ export default class AnimeCardActions extends React.Component<AnimeCardActionsPr
         },
         {
             key: '1',
-            title: 'Completed',
+            title: 'Set as completed',
             icon: () => {
                 return (
                     <Icon name="md-checkmark" size={25} color={ThemeColor.PrimaryColor} />

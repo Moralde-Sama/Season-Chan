@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, ListView, FlatList, TouchableNativeFeedback } from 'react-native';
-import Icon  from 'react-native-vector-icons/Ionicons';
-import { ThemeColor } from '../ThemeColor';
+import { View, StyleSheet, Text, TouchableOpacity, FlatList, TouchableNativeFeedback } from 'react-native';
 
 
 export interface ActionSheetAndroidListProps {
@@ -68,7 +66,7 @@ export default class ActionSheetAndroid extends React.Component<ActionSheetAndro
             </TouchableOpacity>
             <View style={styles.actionSheetContainer}>
                 <this.ActionSheetTitle 
-                    title="What would you like to do?"/>
+                    title="Quick Actions"/>
                 <this.ActionSheetList 
                     listItemProps={this.props.listItem}/>
             </View>
