@@ -5,6 +5,8 @@ import { ThemeColor } from '../ThemeColor';
 import AnimeCardModal, { AnimeModalOptions } from '../components/SeasonalAnime/AnimeCardModal';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AnimeCard from '../components/SeasonalAnime/AnimeCard';
+import { createAppContainer, ThemeColors } from 'react-navigation';
+import BottomNav from '../navigation/BottomNavigation';
 
 export interface SeasonalProps {
     navigation: NavigationDrawerProp
@@ -17,20 +19,6 @@ export interface SeasonalState {
 
 
 export default class SeasonalAnime extends React.Component<SeasonalProps, SeasonalState> {
-  static navigationOptions = ({navigation}: any) => {
-    return {
-      title:  navigation.getParam('Title', 'Default Title'),
-      headerStyle: {backgroundColor: ThemeColor.PrimaryColor},
-      headerTintColor: "#FFFFFF",
-      headerLeft: <Icon name='md-menu' size={35} color='white' style={{marginLeft: 20}} 
-        onPress={navigation.openDrawer} />,
-      headerRight: () => (
-        <SeasonalAnime.HeaderButtons 
-        onPress={navigation.getParam('headerFilter')}/>
-      )
-    }
-  }
-
   static HeaderButtons = (props: {onPress: () => void}) => {
     return (
       <View style={styles.headerButtonsContainer}>
@@ -55,7 +43,8 @@ export default class SeasonalAnime extends React.Component<SeasonalProps, Season
   }
 
   componentDidMount() {
-    this.props.navigation.setParams({
+    const parent_navigator = this.props.navigation.dangerouslyGetParent();
+    parent_navigator?.setParams({
       Title: 'Winter 2020',
       headerFilter: this.headerButtonPressHandler
     })
