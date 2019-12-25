@@ -117,14 +117,34 @@ export default class SeasonalAnime extends React.Component<SeasonalProps, Season
                 {key: '2'},
                 {key: '3'},
                 {key: '4'},
-                {key: '5'}
+                {key: '5'},
+                {key: '6'},
+                {key: '7'},
+                {key: '8'},
+                {key: '9'},
+                {key: '10'}
               ]}]},
               {title: 'TV-Short', data: [{id: 1, data: [
                 {key: '1'},
                 {key: '2'},
                 {key: '3'},
                 {key: '4'},
-                {key: '5'}
+                {key: '5'},
+                {key: '7'},
+                {key: '8'},
+                {key: '9'},
+                {key: '10'}
+              ]}]},
+              {title: 'OVA', data: [{id: 1, data: [
+                {key: '1'},
+                {key: '2'},
+                {key: '3'},
+                {key: '4'},
+                {key: '5'},
+                {key: '7'},
+                {key: '8'},
+                {key: '9'},
+                {key: '10'}
               ]}]}]}
               keyExtractor={(item: any, index: number) => item.id + index}
               removeClippedSubviews={true}
