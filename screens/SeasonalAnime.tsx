@@ -1,20 +1,21 @@
 import * as React from 'react';
-import { View, StyleSheet, FlatList, Alert, TouchableOpacity, SectionList, Text } from 'react-native';
+import { View, StyleSheet, FlatList, TouchableOpacity, SectionList, Text } from 'react-native';
 import { NavigationDrawerProp } from 'react-navigation-drawer';
 import { ThemeColor } from '../ThemeColor';
 import AnimeCardModal, { AnimeModalOptions } from '../components/SeasonalAnime/AnimeCardModal';
 import Icon from 'react-native-vector-icons/Ionicons';
-import AnimeCard from '../components/SeasonalAnime/AnimeCard';
+import AnimeCard, { AnimeCardData } from '../components/SeasonalAnime/AnimeCard';
+import animedata from '../animedata';
 
 export interface SeasonalProps {
     navigation: NavigationDrawerProp
 }
 
 export interface SeasonalState {
+  modalData: any;
   modalVisible: boolean;
   animeModalOptions: AnimeModalOptions;
 }
-
 
 export default class SeasonalAnime extends React.Component<SeasonalProps, SeasonalState> {
   static HeaderButtons = (props: {onPress: () => void}) => {
@@ -38,6 +39,7 @@ export default class SeasonalAnime extends React.Component<SeasonalProps, Season
   constructor(props: SeasonalProps) {
     super(props);
     this.state = {
+      modalData: {},
       modalVisible: false,
       animeModalOptions: {
         showComponent: "MoreInfo",
@@ -58,11 +60,14 @@ export default class SeasonalAnime extends React.Component<SeasonalProps, Season
     this.setAnimeCardOptions(false);
   }
 
-  private moreInfoPressHandler = () => {
-    this.setAnimeCardOptions(true, {
+  private moreInfoPressHandler = (data: any) => {
+    this.setAnimeCardOptions(true,  {
       animationType: "fade",
       showComponent: "MoreInfo"
     });
+    this.setState(() => ({
+      modalData: data
+    }));
   }
 
   private cardActionPressHandler = () => {
@@ -95,80 +100,36 @@ export default class SeasonalAnime extends React.Component<SeasonalProps, Season
     return (
       <View>
         <View style={styles.container}>
-          {/* <FlatList 
-            data={[
-              {key: '1'},
-              {key: '2'},
-              {key: '3'}
-            ]}
-            renderItem={({item}) => {
-              return (
-                <AnimeCard 
-                  onPressActions={this.cardActionPressHandler}
-                  onPressMoreInfo={this.moreInfoPressHandler}
-                  navigation={this.props.navigation}/>
-              )
-            }}
-            horizontal={false}
-            numColumns={2} /> */}
             <SectionList 
-              sections={[{title: 'TV', data: [{id: 1, data: [
-                {key: '1'},
-                {key: '2'},
-                {key: '3'},
-                {key: '4'},
-                {key: '5'},
-                {key: '6'},
-                {key: '7'},
-                {key: '8'},
-                {key: '9'},
-                {key: '10'}
-              ]}]},
-              {title: 'TV-Short', data: [{id: 1, data: [
-                {key: '1'},
-                {key: '2'},
-                {key: '3'},
-                {key: '4'},
-                {key: '5'},
-                {key: '7'},
-                {key: '8'},
-                {key: '9'},
-                {key: '10'}
-              ]}]},
-              {title: 'OVA', data: [{id: 1, data: [
-                {key: '1'},
-                {key: '2'},
-                {key: '3'},
-                {key: '4'},
-                {key: '5'},
-                {key: '7'},
-                {key: '8'},
-                {key: '9'},
-                {key: '10'}
-              ]}]}]}
+              sections={[{title: 'TV', data: animedata}]}
               keyExtractor={(item: any, index: number) => item.id + index}
               removeClippedSubviews={true}
-              renderItem={({item}) => (
-                <FlatList 
-                  data={item.data}
-                  renderItem={({item}) => {
-                    return (
-                      <AnimeCard 
-                        onPressActions={this.cardActionPressHandler}
-                        onPressMoreInfo={this.moreInfoPressHandler}
-                        navigation={this.props.navigation}/>
-                    )
-                  }}
-                  horizontal={false}
-                  numColumns={2} />
-              )}
+              renderItem={({item}) => {
+                return (
+                  <FlatList 
+                    data={item.data}
+                    renderItem={({item}) => {
+                      return (
+                        <AnimeCard
+                          data={item}
+                          onPressActions={this.cardActionPressHandler}
+                          onPressMoreInfo={this.moreInfoPressHandler}
+                          navigation={this.props.navigation}/>
+                      )
+                    }}
+                    horizontal={false}
+                    numColumns={2} />
+                )
+              }}
               renderSectionHeader={({ section: { title } }) => (
                 <View style={styles.sectionContainer}>
                   <Text style={styles.sectionTitle}>{title}</Text>
                 </View>
-              )}/>
+              )}
+              onEndReached={() => console.log('end')}/>
         </View>
         <AnimeCardModal
+          data={this.state.modalData}
           modalVisible={this.state.modalVisible}
           closeModalHandler={this.closeModalHandler}
           animeModalOptions={this.state.animeModalOptions}

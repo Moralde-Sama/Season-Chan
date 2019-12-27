@@ -1,19 +1,78 @@
 import * as React from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { View, StyleSheet, Text, Image, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationDrawerProp } from 'react-navigation-drawer';
 import FastImage from 'react-native-fast-image'
+import { ThemeColor } from '../../ThemeColor';
+
+export interface AnimeCardData {
+  id: number,
+  rankings: {rank: number}[];
+  title: {userPreferred: string};
+  description: string;
+  type: string;
+  status: string;
+  format: string;
+  genres: string[];
+  coverImage: {large: string};
+  nextAiringEpisode: {id: number};
+  studios: {nodes: {name: string[]}};
+}
 
 export interface AnimeCardProps {
-  onPressMoreInfo: () => void;
+  data: AnimeCardData | any;
+  onPressMoreInfo: (data: any) => void;
   onPressActions: () => void;
   navigation: NavigationDrawerProp;
 }
 
-export default class AnimeCard extends React.Component<AnimeCardProps, any> {
+export interface AnimeCardState {
+  showImageLoadingIndicator: boolean;
+}
+
+export default class AnimeCard extends React.Component<AnimeCardProps, AnimeCardState> {
 
   constructor(props: AnimeCardProps) {
     super(props);
+    this.state = {
+      showImageLoadingIndicator: true
+    }
+  }
+
+  private Ranking = (props: {rankings: {rank: number}[]}) => {
+    if (props.rankings.length > 1) {
+      return (
+        <View 
+          style={styles.ranking}>
+          <Icon name={'md-heart-empty'} size={25} color={'red'} />
+          <Text style={styles.rankingText}>#{props.rankings[1].rank}</Text>
+        </View>
+      )
+    }
+    else {
+      return null;
+    }
+  }
+
+  private ImageLoadingIndicator = () => {
+    if (this.state.showImageLoadingIndicator) {
+      return (
+        <View style={styles.imageActContainer}>
+          <ActivityIndicator
+            size="large"
+            color='white'
+            animating={true}/>
+        </View>
+      )
+    }
+    else
+      return null;
+  }
+
+  private imageLoaded = () => {
+    this.setState(() => ({
+      showImageLoadingIndicator: false
+    }))
   }
 
   public render() {
@@ -23,33 +82,27 @@ export default class AnimeCard extends React.Component<AnimeCardProps, any> {
           onPress={() => {this.props.navigation.navigate('AnimeDetails')}}
           activeOpacity={.8}>
           <View>
+            <this.ImageLoadingIndicator />
             <FastImage
               style={{ width: '100%', height: '100%', borderRadius: 10, }}
               source={{
-                uri: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx108489-y4rW0W1fvto6.jpg',
+                uri: this.props.data.coverImage.large,
                 priority: FastImage.priority.normal,
               }}
               resizeMode={FastImage.resizeMode.cover}
-            />
-            {/* <Image
-              source={{uri: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx108489-y4rW0W1fvto6.jpg'}}
-              style={styles.imageBG}/> */}
-            <View 
-              style={styles.ranking}>
-              <Icon name={'md-heart-empty'} size={25} color={'red'} />
-              <Text style={styles.rankingText}>#1</Text>
-            </View>
+              onLoad={this.imageLoaded} />
+            <this.Ranking rankings={this.props.data.rankings} />
             <View
               style={styles.moreInfoContainer}>
               <TouchableOpacity
-                onPress={this.props.onPressMoreInfo.bind(this)}
+                onPress={() => this.props.onPressMoreInfo(this.props.data)}
                 style={styles.moreInfo}>
                 <Icon name='md-help' size={20} color='white' />
               </TouchableOpacity>
             </View>
             <View style={styles.content}>
-              <Text style={styles.title}>Oregairu Season 2</Text>
-              <Text style={styles.studio}>Feel</Text>
+              <Text style={styles.title}>{this.props.data.title.userPreferred}</Text>
+              <Text style={styles.studio}>{this.props.data.studios.nodes[0].name}</Text>
               <TouchableOpacity 
                 onPress={this.props.onPressActions.bind(this)}
                 style={styles.options}>
@@ -68,11 +121,11 @@ const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: ThemeColor.PrimaryColor,
     borderRadius: 10,
     width: windowWidth*.46,
     height: windowHeight*.42,
-    elevation: 5,
+    elevation: 6,
     margin: windowWidth*.02,
   },
   imageBG: {
@@ -137,5 +190,15 @@ const styles = StyleSheet.create({
   moreInfo: {
     height: '100%',
     width: '100%',
+  },
+  imageActContainer: {
+    position: "absolute",
+    zIndex: 3,
+    top: 0,
+    left: 0,
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });

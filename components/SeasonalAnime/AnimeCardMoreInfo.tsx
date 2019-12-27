@@ -1,19 +1,15 @@
 import * as React from 'react';
-import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, Text, TouchableHighlight, ScrollView, FlatList } from 'react-native';
 import { ThemeColor } from '../../ThemeColor';
 
 export interface AnimeCardMoreInfoProps {
-    closeModal: () => void;
+  data: any;
+  closeModal: () => void;
 }
 
-export interface AnimeCardMoreInfoState {
-}
-
-export default class AnimeCardMoreInfo extends React.Component<AnimeCardMoreInfoProps, AnimeCardMoreInfoState> {
+export default class AnimeCardMoreInfo extends React.Component<AnimeCardMoreInfoProps, any> {
   constructor(props: AnimeCardMoreInfoProps) {
     super(props);
-    this.state = {
-    };
   }
 
   public render() {
@@ -21,18 +17,20 @@ export default class AnimeCardMoreInfo extends React.Component<AnimeCardMoreInfo
       <View style={styles.background}>
         <View style={styles.content}>
           <Text style={styles.header}>More Info</Text>
-          <Text style={styles.description}>
-          It is said that "Hanako-san" lives in the girl's toilet 
-          on the 3rd floor in the old school building and will grant 
-          anyone a wish for a price. Yashiro Nene goes looking for "Hanako-san" 
-          in the hopes for a successful love encounter, but the one that she meets 
-          is completely​ different from what she imagined.
-          </Text>
+          <ScrollView
+            style={{maxHeight: '75%'}}>
+            <Text style={styles.description}>
+              {this.props.data.description}
+            </Text>
+          </ScrollView>
           <View style={styles.genreContainer}>
-            <Text style={styles.genreChip}>Comedy</Text>
-            <Text style={styles.genreChip}>Drama</Text>
-            <Text style={styles.genreChip}>Romance</Text>
-            <Text style={styles.genreChip}>Slice of life</Text>
+            <FlatList 
+              data={this.props.data.genres}
+              horizontal={true}
+              keyExtractor={(item, index) => `${item}${index}`}
+              renderItem={({item}) => (
+                <Text style={styles.genreChip}>{`${item}`}</Text>
+              )}/>
           </View>
           <TouchableHighlight
             style={styles.closeButton}

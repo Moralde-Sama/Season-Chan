@@ -10,6 +10,7 @@ export interface AnimeModalOptions {
 }
 
 export interface SeasonalAnimeModalProps {
+  data: any;
   modalVisible: boolean;
   closeModalHandler: () => void;
   animeModalOptions: AnimeModalOptions;
@@ -31,6 +32,7 @@ export default class SeasonalAnimeModal extends React.Component<SeasonalAnimeMod
       case "MoreInfo":
         return (
           <AnimeCardMoreInfo 
+            data={this.props.data}
             closeModal={this.props.closeModalHandler}/>
         )
       case "HeaderOptions":
